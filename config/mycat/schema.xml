@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+	<schema name="masterdb" checkSQLschema="false" sqlMaxLimit="100" >
+                <table name="t_user" dataNode="dn1,dn2,dn3" rule="crc32slot">
+                    <childTable name="t_admin" joinKey="user_id" parentKey="id" />
+                </table>
+        </schema>
+        <dataNode name="dn1" dataHost="masterDH" database="db1" />
+        <dataNode name="dn2" dataHost="masterDH" database="db2" />
+        <dataNode name="dn3" dataHost="masterDH" database="db3" />
+	<dataHost name="masterDH" maxCon="1000" minCon="10" balance="1"
+			  writeType="0" dbType="mysql" dbDriver="native" switchType="1" slaveThreshold="100">
+		<heartbeat>select user()</heartbeat>
+		<writeHost host="m1" url="172.18.0.2:3306" user="root" password="root">
+			<readHost host="s1" url="172.18.0.3:3306" user="root" password="root" />
+			<readHost host="s2" url="172.18.0.4:3306" user="root" password="root" />
+		</writeHost>
+	</dataHost>
+</mycat:schema>
