@@ -6,7 +6,7 @@
 
 ```shell
 % cd ~ #切换到主目录
-% git clone https://github.com/liuwel/docker-mycat.git
+% git clone https://github.com/jackgeeks2018/mycat.git
 % tree docker-mycat
 ├ compose
 │   ├ docker-compose.yml
